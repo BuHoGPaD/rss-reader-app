@@ -1,93 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { Provider } from 'react-redux';
 
-class ChannelList extends React.Component {
-	constructor(props) {
-    super(props);
-    this.state = {
-      channelList: [],
-    };
-  }
+import configureStore from './configureStore';
+import App from './components/App';
 
-	addChannel() {
-		let adress = document.getElementById("addChannelInput").value;
-		let newState = this.state.channelList.concat(adress);
-		this.setState({
-			channelList: newState,
-		});
-	}
+const store = configureStore();
+const rootEl = document.getElementById('root')
 
-  render() {
-		const channelList = this.state.channelList;
-		const channels = channelList.map((channelAdress, index) => {
-			return (
-				<li key={index}>
-					{channelAdress}
-				</li>
-			);
-		}
+const Component = () => (
+    <Provider store={store}>
+        <App />
+    </Provider>
+)
 
-		)
-
-		return (
-			<div className="Frame Channel-List">
-				<form>
-					<input id="addChannelInput" />
-					<button id="addChannelButton" onClick={() => this.addChannel()}>Add channel</button>
-				</form>
-				<div>
-					<ol>{channels}</ol>
-				</div>
-			</div>
-		);
-  }
+let render = () => {
+    debugger;
+    ReactDOM.render(
+        <Component />,
+        rootEl
+    )
 }
 
-class ChannelFeed extends React.Component {
-  render() {
-		return (
-			<div className="Frame Channel-Feed">
-				ChannelFeed
-			</div>
-		);
-  }
+render();
+if (module.hot) {
+    module.hot.accept(Component => {
+      render();
+    })
 }
-
-class MessageDetails extends React.Component {
-  render() {
-    return (
-			<div className="Frame Message-Deatils">
-				MessageDetails
-			</div>
-		);  
-  }
-}
-
-class MessageStats extends React.Component {
-	render() {
-    return (
-			<div className="Frame Message-Stats">
-				MessageStats
-			</div>
-		);  
-	}
-}
-
-class App extends React.Component {
-	render() {
-		return (
-			<div className="wrap">
-				<ChannelList />
-				<ChannelFeed />
-				<MessageDetails />
-				<MessageStats />
-			</div>
-		)			
-	}
-}
-
-ReactDOM.render(
-	<App />, 
-	document.getElementById('root')
-);
