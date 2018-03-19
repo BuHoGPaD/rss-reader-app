@@ -4,13 +4,12 @@ import {
     INCREASE_COUNT,
     DECREASE_COUNT,
     CHANGE_TEXT,
-} from '../../actions'
+} from '../../actions/counter'
 
 var initialState = {
 }
  
-export default function (state = {}, action) {
-    debugger;
+export default function counter(state = {}, action) {
     switch (action.type) {
         case ADD_COUNTER:
             return Object.assign({}, state, action.payload);

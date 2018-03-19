@@ -15,7 +15,6 @@ const Component = () => (
 )
 
 let render = () => {
-    debugger;
     ReactDOM.render(
         <Component />,
         rootEl

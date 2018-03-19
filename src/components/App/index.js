@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   changeText,
-} from '../../actions';
+} from '../../actions/counter';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+
+import { getFeed } from '../../api/rssFeed';
 
 class Login extends Component { 
   constructor(props) {
@@ -17,7 +20,8 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(nextProps.counter);
+    console.log(nextProps.feed);
+    this.setState(nextProps.feed);
   }
 
   changeText(event) {
@@ -25,22 +29,14 @@ class Login extends Component {
   }
 
   submit() {
-    this.props.initSubmit(this.state);
+    // this.props.initSubmit(this.state);
+    this.props.initGetFeed();
   }
 
   render() {
     return (
       <div className="container">
-        <form>
-          <div className="form-group">
-            <label htmlFor="inputEmailField">Email</label>
-            <input id="inputEmailField" type="text" className="form-control" value={this.state.value} onChange={this.changeText}>
-            </input>
-          </div>
-
-          <button type="button" className="btn btn-success" style={{ marginBottom: '1px' }} onClick={this.submit}>Submit</button>
-          
-        </form>
+        <button type="button" className="btn btn-primary" onClick={this.submit}>Primary</button>
       </div>
     );
   }
@@ -53,7 +49,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     initSubmit: (data) => {
-      dispatch(changeText(data));
+        data = "asdas";
+        dispatch(changeText(data));
+    },
+
+    initGetFeed: () => {
+        getFeed()(dispatch);
     }
   }
 }
