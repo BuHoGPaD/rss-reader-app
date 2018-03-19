@@ -1,3 +1,15 @@
 .col {
     text-align: center;
 }
+
+ul {
+    list-style-type: none;
+    max-width: 900px;
+    font-size: 1em;
+}
+
+li {
+    padding: 35px;
+}
+
+

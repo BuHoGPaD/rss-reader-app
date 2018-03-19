@@ -13,15 +13,22 @@ class Login extends Component {
     super(props);
     this.changeText = this.changeText.bind(this);
     this.submit = this.submit.bind(this);
+    this.numberList = this.numberList.bind(this);
 
     this.state = {
-        value: ''
+        value: '',
+        feeds: []
     }
   }
 
   componentWillReceiveProps(nextProps) {
+    debugger;
     console.log(nextProps.feed);
-    this.setState(nextProps.feed);
+    this.setState({ feeds: nextProps.feed });
+  }
+
+  componentWillMount() {
+    this.props.initGetFeed();
   }
 
   changeText(event) {
@@ -30,13 +37,60 @@ class Login extends Component {
 
   submit() {
     // this.props.initSubmit(this.state);
-    this.props.initGetFeed();
+    // this.props.initGetFeed();
+  }
+
+  numberList(props) {
+    // const numbers = props.numbers;
+    debugger;
+    var numbers = [];
+    if(this.state.feeds && this.state.feeds.data) {
+      numbers = this.state.feeds.data.items;
+    }
+    const listItems = numbers.map((number) =>
+      <li key={number.guid}>
+        <div className="card">
+          <div className="card-header">
+            {number.title}
+          </div>
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">{number.content}</li>
+            <li className="list-group-item">{number.contentSnippet}</li>
+            <li className="list-group-item">{number.isoDate}</li>
+            <li className="list-group-item">{number.link}</li>
+            <li className="list-group-item">{number.pubDate}</li>
+            <li className="list-group-item">{number.categories[0]}</li>
+          </ul>
+        </div>
+      </li>
+    );
+    return (
+      <ul>{listItems}</ul>
+    );
   }
 
   render() {
+
+
+
     return (
       <div className="container">
-        <button type="button" className="btn btn-primary" onClick={this.submit}>Primary</button>
+        {/* <button type="button" className="btn btn-primary" onClick={this.submit}>Primary</button> */}
+        <div className="row flex-xl-nowrap">
+          <div className="col">
+            {this.numberList()}  
+          </div>
+        </div>
+        
+
+        {/* <ul class="list-group" >
+          <li class="list-group-item">Cras justo odio</li>
+          <li class="list-group-item">Dapibus ac facilisis in</li>
+          <li class="list-group-item">Morbi leo risus</li>
+          <li class="list-group-item">Porta ac consectetur ac</li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul> */}
+
       </div>
     );
   }
