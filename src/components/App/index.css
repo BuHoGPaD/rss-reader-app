@@ -1,5 +1,7 @@
 .col {
     text-align: center;
+    max-height:600px;
+    overflow-y:auto;  
 }
 
 ul {
@@ -12,4 +14,4 @@ li {
     padding: 35px;
 }
 
-
+::-webkit-scrollbar { width: 0; }
