@@ -54,12 +54,10 @@ class Login extends Component {
             {number.title}
           </div>
           <ul className="list-group list-group-flush">
-            <li className="list-group-item">{number.content}</li>
-            <li className="list-group-item">{number.contentSnippet}</li>
-            <li className="list-group-item">{number.isoDate}</li>
-            <li className="list-group-item">{number.link}</li>
-            <li className="list-group-item">{number.pubDate}</li>
-            <li className="list-group-item">{number.categories[0]}</li>
+            {/* <li className="list-group-item">{number.content}</li> */}
+            <li className="card-text">{number.contentSnippet}</li>
+            {/* <li className="list-group-item">{number.isoDate}</li> */}
+            <p className="list-group-item"><a href={number.link}>Link</a> | Date: {number.pubDate} | Categories: {number.categories[0]}</p>
           </ul>
         </div>
       </li>
@@ -76,7 +74,7 @@ class Login extends Component {
     return (
       <div className="container">
         {/* <button type="button" className="btn btn-primary" onClick={this.submit}>Primary</button> */}
-        <div className="row flex-xl-nowrap">
+        <div className="row flex-xl-nowrap w-50 shadow">
           <div className="col">
             {this.numberList()}  
           </div>
