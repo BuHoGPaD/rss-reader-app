@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   changeText,
 } from '../../actions/counter';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 import { getFeed } from '../../api/rssFeed';
@@ -14,10 +14,13 @@ class Login extends Component {
     this.changeText = this.changeText.bind(this);
     this.submit = this.submit.bind(this);
     this.numberList = this.numberList.bind(this);
+    this.openFeedDetails = this.openFeedDetails.bind(this);
+    this.selectFeedContent = this.selectFeedContent.bind(this);
 
     this.state = {
         value: '',
-        feeds: []
+        feeds: [],
+        selectedFeed: ''
     }
   }
 
@@ -40,25 +43,34 @@ class Login extends Component {
     // this.props.initGetFeed();
   }
 
-  numberList(props) {
-    // const numbers = props.numbers;
+  selectFeedContent(id) {
+    const items = this.state.feeds.data.items;
+
+    const guidArray = items.map( (item) => item.guid);
+    const index = guidArray.indexOf(id);
+    const selectedItem = items[index];
+    return selectedItem;
+  }
+
+  openFeedDetails(id) {
     debugger;
+    if(id) {
+      const content = this.selectFeedContent(id);
+      this.setState({ selectedFeed: content });
+    }
+  }
+
+  numberList(props) {
     var numbers = [];
     if(this.state.feeds && this.state.feeds.data) {
       numbers = this.state.feeds.data.items;
     }
     const listItems = numbers.map((number) =>
       <li key={number.guid}>
-        <div className="card">
+        <div className="card" onClick={ () => this.openFeedDetails(number.guid)}>
           <div className="card-header">
             {number.title}
           </div>
-          <ul className="list-group list-group-flush">
-            {/* <li className="list-group-item">{number.content}</li> */}
-            <li className="card-text">{number.contentSnippet}</li>
-            {/* <li className="list-group-item">{number.isoDate}</li> */}
-            <p className="list-group-item"><a href={number.link}>Link</a> | Date: {number.pubDate} | Categories: {number.categories[0]}</p>
-          </ul>
         </div>
       </li>
     );
@@ -67,28 +79,63 @@ class Login extends Component {
     );
   }
 
+  /*
+    content, contentSnippet, isoDate, link, pubDate, categories
+  */
+
   render() {
-
-
+    debugger;
+    let selectedFeedContainer = '';
+    if(this.state.selectedFeed) {
+      selectedFeedContainer = (
+        <ul>
+          <li>{ this.state.selectedFeed.title }</li>
+        </ul>
+      )
+    }
+    
 
     return (
-      <div className="container">
-        {/* <button type="button" className="btn btn-primary" onClick={this.submit}>Primary</button> */}
-        <div className="row flex-xl-nowrap w-50 shadow">
-          <div className="col">
-            {this.numberList()}  
+      <div>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+          <a className="navbar-brand" href="#">Navbar</a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbarColor01">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Features</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Pricing</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">About</a>
+              </li>
+            </ul>
+            <form className="form-inline">
+              <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+
+        <div className="container" style={{ paddingTop: '90px'}}>
+          <div className="row">
+            <div className="col-2"></div>
+            <div className="col-6">
+              {this.numberList()}  
+            </div>
+            <div className="col-4">
+              { selectedFeedContainer }
+            </div>
           </div>
         </div>
-        
-
-        {/* <ul class="list-group" >
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
-        </ul> */}
-
       </div>
     );
   }
@@ -106,6 +153,7 @@ const mapDispatchToProps = (dispatch) => {
     },
 
     initGetFeed: () => {
+        console.log('getFeed');
         getFeed()(dispatch);
     }
   }

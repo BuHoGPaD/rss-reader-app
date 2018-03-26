@@ -1,17 +1,22 @@
-.col {
+/* .col {
     text-align: center;
     max-height:600px;
     overflow-y:auto;  
-}
+} */
 
 ul {
     list-style-type: none;
-    max-width: 900px;
-    font-size: 1em;
+    /* max-width: 900px;
+    font-size: 1em; */
 }
 
 li {
-    padding: 35px;
+    padding: 12px;
 }
 
 ::-webkit-scrollbar { width: 0; }
+
+.card:hover {
+    cursor: pointer;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2)
+}
